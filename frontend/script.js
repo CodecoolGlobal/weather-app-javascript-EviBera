@@ -70,18 +70,22 @@ selectElement.addEventListener('change', (event) => {
 
 const wrapContent = (tag, text) => {
   return `<${tag}>${text}</${tag}>`
-}
+};
 
 const displayWeather = (data) => {
   rootElement.insertAdjacentHTML('beforeend', `<div id="card"></div>`);
   const cardElement = document.querySelector("#card");
+  cardElement.innerHTML = '';
 
   let textToHTML = wrapContent('div', ('sky conditions: ' + data.current.condition.text)) +
-    wrapContent('div', ('humidity: ' + data.current.humidity));
+    wrapContent('div', ('humidity: ' + data.current.humidity)) +
+    wrapContent('div', ('temperature (˚C): ' + data.current.temp_c)) +
+    wrapContent('div', ('temperature (˚F): ' + data.current.temp_f));
+
 
   cardElement.insertAdjacentHTML('afterbegin', textToHTML);
   
-}
+};
 
 
 
