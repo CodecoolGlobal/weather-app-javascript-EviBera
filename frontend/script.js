@@ -6,15 +6,25 @@ const loadEvent = function() {
   
     // Write your JavaScript code after this line
   
-    let fetchWeather = (fetchURL) =>{
+    let fetchAPI = (fetchURL) =>{
         fetch(fetchURL)
             .then(function(response) {
                 return response.json();
                 })
             .then((data) => {
-                console.log(data);
-                document.querySelector("#citynames").innerHTML = '';
-                createDataList(data);
+
+                if (fetchURL.includes('search')){
+                  console.log('search data: ' + data);
+                  document.querySelector("#citynames").innerHTML = '';
+                  createDataList(data);
+                };
+                if (fetchURL.includes('current')){
+                  console.log("weather")
+                  console.log("current data: " + data);
+                  displayWeather(data);
+                  console.log(data);
+                };
+
                 })
             .catch(function(error) {
                 console.log(error);
@@ -23,32 +33,25 @@ const loadEvent = function() {
 
     //fetchWeather(fetchURL+city);
   
-    const rootElement = document.querySelector("#root");
-    rootElement.insertAdjacentHTML('beforeend', 
-        `<label for="choice">Choose a city:</label>
-        <input list="citynames" id="cities" name="city"></input>
-        <datalist id="citynames"></datalist>`
-      );
+const rootElement = document.querySelector("#root");
+rootElement.insertAdjacentHTML('beforeend', 
+    `<label for="choice">Choose a city:</label>
+    <input list="citynames" id="cities" name="city"></input>
+    <datalist id="citynames"></datalist>`
+  );
 
 
 const selectElement = document.querySelector('#cities');
 
-/* selectElement.addEventListener('change', (event) => {
-    console.log(event.target.value);
-    city = event.target.value;
-    fetchURL = "http://api.weatherapi.com/v1/current.json?key=bbe8663248294c28b60135807232301&q="+city;
-    fetchWeather(fetchURL);
-}); */
-  
 
 selectElement.addEventListener('input', (event) => {
   console.log(event.target.value);
   console.log(event.target.value.substring(0,3));
-
+  
   if (event.target.value.length > 2) {
     city = event.target.value;
     fetchURL = "http://api.weatherapi.com/v1/search.json?key=bbe8663248294c28b60135807232301&q="+city;
-    fetchWeather(fetchURL);
+    fetchAPI(fetchURL);
   }
 });
 
@@ -57,7 +60,31 @@ const createDataList = (data) => {
   
 };
 
+
+selectElement.addEventListener('change', (event) => {
+    //console.log(event.target.value);
+    city = event.target.value;
+    fetchURL = "http://api.weatherapi.com/v1/current.json?key=bbe8663248294c28b60135807232301&q="+city;
+    fetchAPI(fetchURL);
+});
+
+const wrapContent = (tag, text) => {
+  return `<${tag}>${text}</${tag}>`
+}
+
+const displayWeather = (data) => {
+  rootElement.insertAdjacentHTML('beforeend', `<div id="card"></div>`);
+  const cardElement = document.querySelector("#card");
+
+  let textToHTML = wrapContent('div', ('sky conditions: ' + data.current.condition.text)) +
+    wrapContent('div', ('humidity: ' + data.current.humidity));
+
+  cardElement.insertAdjacentHTML('afterbegin', textToHTML);
   
+}
+
+
+
     // Write your JavaScript code before this line
   
   }
