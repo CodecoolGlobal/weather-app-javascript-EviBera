@@ -23,13 +23,13 @@ const loadEvent = function() {
 
     //fetchWeather(fetchURL+city);
   
+    const rootElement = document.querySelector("#root");
+    rootElement.insertAdjacentHTML('beforeend', 
+        `<label for="choice">Choose a city:</label>
+        <input list="citynames" id="cities" name="city"></input>
+        <datalist id="citynames"></datalist>`
+      );
 
-const rootElement = document.querySelector("#root");
-rootElement.insertAdjacentHTML('beforeend', 
-    `<label for="choice">Choose a city:</label>
-    <input list="citynames" id="cities" name="city"></input>
-    <datalist id="citynames"></datalist>`
-  );
 
 const selectElement = document.querySelector('#cities');
 
