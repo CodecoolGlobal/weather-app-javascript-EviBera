@@ -73,7 +73,9 @@ const wrapContent = (tag, text) => {
 };
 
 const displayWeather = (data) => {
-  rootElement.insertAdjacentHTML('beforeend', `<div id="card"></div>`);
+  if (!document.querySelector("#card")){
+    rootElement.insertAdjacentHTML('beforeend', `<div id="card"></div>`);
+  }
   const cardElement = document.querySelector("#card");
   cardElement.innerHTML = '';
 
