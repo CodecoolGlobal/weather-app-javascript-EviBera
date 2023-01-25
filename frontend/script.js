@@ -1,5 +1,8 @@
 let fetchURL = "http://api.weatherapi.com/v1/current.json?key=bbe8663248294c28b60135807232301&q=", city="Budapest";
 
+const rootElement = document.querySelector("#root");
+rootElement.insertAdjacentHTML('beforeend', `<div hidden id="spinner"></div>`);
+const spinner = document.getElementById("spinner");
 
 
 const loadEvent = function() {
@@ -7,21 +10,23 @@ const loadEvent = function() {
     // Write your JavaScript code after this line
   
     let fetchAPI = (fetchURL) =>{
-        fetch(fetchURL)
-            .then(function(response) {
-                return response.json();
-                })
-            .then((data) => {
-
-                if (fetchURL.includes('search')){
-                  console.log('search data: ' + data);
-                  document.querySelector("#citynames").innerHTML = '';
-                  createDataList(data);
-                };
-                if (fetchURL.includes('current')){
+      spinner.removeAttribute('hidden');
+      fetch(fetchURL)
+      .then(function(response) {
+        return response.json();
+      })
+      .then((data) => {
+        
+        if (fetchURL.includes('search')){
+          console.log('search data: ' + data);
+          document.querySelector("#citynames").innerHTML = '';
+          createDataList(data);
+        };
+        if (fetchURL.includes('current')){
+          spinner.setAttribute('hidden', '');
                   console.log("weather")
                   console.log("current data: " + data);
-                  setTimeout(displayWeather, 3000, data);
+                  displayWeather(data);
                   console.log(data);
                 };
 
@@ -33,7 +38,6 @@ const loadEvent = function() {
 
     //fetchWeather(fetchURL+city);
   
-const rootElement = document.querySelector("#root");
 rootElement.insertAdjacentHTML('beforeend', 
     `<label for="choice">Choose a city:</label>
     <input list="citynames" id="cities" name="city"></input>
@@ -66,7 +70,6 @@ selectElement.addEventListener('change', (event) => {
     city = event.target.value;
     fetchURL = "http://api.weatherapi.com/v1/current.json?key=bbe8663248294c28b60135807232301&q="+city;
     fetchAPI(fetchURL);
-    loadData()
 });
 
 const wrapContent = (tag, text) => {
@@ -90,20 +93,6 @@ const displayWeather = (data) => {
   cardElement.insertAdjacentHTML('afterbegin', textToHTML);
   
 };
-
-rootElement.insertAdjacentHTML('beforeend', `<div hidden id="spinner"></div>`);
-const spinner = document.getElementById("spinner");
-
-const loadData = () =>{
-  spinner.removeAttribute('hidden');
-  fetch('https://www.mocky.io/v2/5185415ba171ea3a00704eed?mocky-delay=3000ms')
-    .then(response => response.json())
-    .then(data => {
-      spinner.setAttribute('hidden', '');
-      console.log('spinner')
-    })
-};
-
 
 
 
