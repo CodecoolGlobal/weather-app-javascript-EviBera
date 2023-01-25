@@ -21,7 +21,7 @@ const loadEvent = function() {
                 if (fetchURL.includes('current')){
                   console.log("weather")
                   console.log("current data: " + data);
-                  displayWeather(data);
+                  setTimeout(displayWeather, 3000, data);
                   console.log(data);
                 };
 
@@ -96,11 +96,11 @@ const spinner = document.getElementById("spinner");
 
 const loadData = () =>{
   spinner.removeAttribute('hidden');
-  fetch('https://www.mocky.io/v2/5185415ba171ea3a00704eed?mocky-delay=5000ms')
+  fetch('https://www.mocky.io/v2/5185415ba171ea3a00704eed?mocky-delay=3000ms')
     .then(response => response.json())
     .then(data => {
       spinner.setAttribute('hidden', '');
-      console.log(data)
+      console.log('spinner')
     })
 };
 
