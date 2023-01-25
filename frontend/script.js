@@ -70,7 +70,7 @@ selectElement.addEventListener('change', (event) => {
     //console.log(event.target.value);
     city = event.target.value;
     fetchURL = "http://api.weatherapi.com/v1/current.json?key=bbe8663248294c28b60135807232301&q="+city;
-    setTimeout(fetchAPI, 2000, fetchURL);
+    setTimeout(fetchAPI, 1000, fetchURL);
 });
 
 const wrapContent = (tag, text) => {
@@ -84,11 +84,17 @@ const displayWeather = (data) => {
   const cardElement = document.querySelector("#card");
   cardElement.innerHTML = '';
   
-  let textToHTML = wrapContent('div', ('city: ' + data.location.name)) +
+  let textToHTML = wrapContent('div', ('city: ' + '<strong>' + data.location.name + '</strong>')) +
+    wrapContent('div', ('region: ' + data.location.region + ' / country: ' +data.location.country)) +
+    `<img src="${data.current.condition.icon}" alt="little icon">` +
     wrapContent('div', ('sky conditions: ' + data.current.condition.text)) +
-    wrapContent('div', ('humidity: ' + data.current.humidity)) +
-    wrapContent('div', ('temperature (˚C): ' + data.current.temp_c)) +
-    wrapContent('div', ('temperature (˚F): ' + data.current.temp_f));
+    wrapContent('div', ('wind direction: ' + data.current.wind_dir)) +
+    wrapContent('div', ('temperature: ' + data.current.temp_c + ' ˚C')) +
+    wrapContent('div', ('wind speed: ' + data.current.wind_kph + ' km/h')) +
+    wrapContent('div', ('temperature: ' + data.current.temp_f + ' ˚F')) +
+    wrapContent('div', ('wind speed: ' + data.current.wind_mph + ' miles/h')) +
+    wrapContent('div', ('humidity: ' + data.current.humidity + ' %')) +
+    wrapContent('div', ('pressure: ' + data.current.pressure_mb + ' hPa'));
 
 
   cardElement.insertAdjacentHTML('afterbegin', textToHTML);
