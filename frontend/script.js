@@ -77,7 +77,8 @@ const displayWeather = (data) => {
   const cardElement = document.querySelector("#card");
   cardElement.innerHTML = '';
 
-  let textToHTML = wrapContent('div', ('sky conditions: ' + data.current.condition.text)) +
+  let textToHTML = wrapContent('div', ('city: ' + data.location.name)) +
+    wrapContent('div', ('sky conditions: ' + data.current.condition.text)) +
     wrapContent('div', ('humidity: ' + data.current.humidity)) +
     wrapContent('div', ('temperature (˚C): ' + data.current.temp_c)) +
     wrapContent('div', ('temperature (˚F): ' + data.current.temp_f));
