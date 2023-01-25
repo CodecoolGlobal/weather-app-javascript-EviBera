@@ -66,6 +66,7 @@ selectElement.addEventListener('change', (event) => {
     city = event.target.value;
     fetchURL = "http://api.weatherapi.com/v1/current.json?key=bbe8663248294c28b60135807232301&q="+city;
     fetchAPI(fetchURL);
+    loadData()
 });
 
 const wrapContent = (tag, text) => {
@@ -89,6 +90,23 @@ const displayWeather = (data) => {
   cardElement.insertAdjacentHTML('afterbegin', textToHTML);
   
 };
+
+rootElement.insertAdjacentHTML('beforeend', `<div hidden id="spinner"></div>`);
+const spinner = document.getElementById("spinner");
+
+const loadData = () =>{
+  spinner.removeAttribute('hidden');
+  fetch('https://www.mocky.io/v2/5185415ba171ea3a00704eed?mocky-delay=5000ms')
+    .then(response => response.json())
+    .then(data => {
+      spinner.setAttribute('hidden', '');
+      console.log(data)
+    })
+};
+
+
+
+
 
 
 
