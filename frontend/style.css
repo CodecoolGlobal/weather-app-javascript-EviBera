@@ -1,12 +1,18 @@
+html, body{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
 #card {
-    margin: auto;
+    /* margin: auto;
     width: 50vh;
     border: 2px black;
     padding: 10px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
-    font-size: 1.5em;
-    background-color: beige;
+    font-size: 1.5em; */
+    background-color: rgba(255,255,255,.8);
 }
 
 #card:hover {
@@ -43,3 +49,21 @@
       transform: rotate(360deg);
     }
   }
+
+
+  #pic{
+    height: 100vh;
+  }
+
+.star.empty{
+  font-size: 22px;
+  color: orange;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
