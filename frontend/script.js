@@ -18,35 +18,46 @@ const spinner = document.getElementById("spinner");
 const selectElement = document.querySelector('#cities');
 
 
-function getPhotos(images) {
+
+const loadEvent = function() {
+
+
+/* function getPhotos(images) {
   images.map(image => {
     console.log(image)
   })
-};
+}; */
 
-fetch("https://api.pexels.com/v1/search?query=weather",{
-  headers: {
-    Authorization: 'BQJqfCnx2tJDWXIKI7kZqBEwj4yn7pYWoyAZ9nlHtmH7tmmrmKr0HeHa'
-  }
-})
-.then(resp => {
-  return resp.json()
-})
-.then(data => {
-  console.log(data.photos);
-  let picture = (data.photos[Math.floor(Math.random() * 15)])
-  console.log(picture);
+  let fetchPicture = (url, theme) => {
+
+    fetch(url+theme, { 
+      headers: {
+        Authorization: 'BQJqfCnx2tJDWXIKI7kZqBEwj4yn7pYWoyAZ9nlHtmH7tmmrmKr0HeHa'
+      }
+    })
+    .then(resp => {
+      return resp.json()
+    })
+    .then(data => {
+      console.log('photos: ');
+      console.log(data.photos);
+      let picture = (data.photos[Math.floor(Math.random() * 15)])
+      console.log('pic to the app: ');
+      console.log(picture);
+      console.log(picture.src);
+      
+      pictureElement.insertAdjacentHTML('afterbegin', `<img src=${picture.src.landscape} alt=${picture.alt}>`);
+    });
+    
+  };
+
+  fetchPicture("https://api.pexels.com/v1/search?query=", "winter landscape");
+
+
+
+
   
-  pictureElement.insertAdjacentHTML('afterbegin', `<img src=${picture.url} alt=${picture.alt}>`);
-});
-
-
-
-
-
-const loadEvent = function() {
-  
-    // Write your JavaScript code after this line
+    
   
     let fetchAPI = (fetchURL) =>{
       fetch(fetchURL)
