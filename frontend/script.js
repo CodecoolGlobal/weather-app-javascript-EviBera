@@ -1,5 +1,4 @@
-let fetchURL = "http://api.weatherapi.com/v1/current.json?key=bbe8663248294c28b60135807232301&q=", city="Budapest";
-
+let fetchURL = "", city="";
 
 const rootElement = document.querySelector("#root");
 
@@ -22,15 +21,9 @@ const selectElement = document.querySelector('#cities');
 const loadEvent = function() {
 
 
-/* function getPhotos(images) {
-  images.map(image => {
-    console.log(image)
-  })
-}; */
+  let fetchPicture = (theme) => {
 
-  let fetchPicture = (url, theme) => {
-
-    fetch(url+theme, { 
+    fetch("https://api.pexels.com/v1/search?query=" + theme, { 
       headers: {
         Authorization: 'BQJqfCnx2tJDWXIKI7kZqBEwj4yn7pYWoyAZ9nlHtmH7tmmrmKr0HeHa'
       }
@@ -45,19 +38,16 @@ const loadEvent = function() {
       console.log('pic to the app: ');
       console.log(picture);
       console.log(picture.src);
-      
+      pictureElement.innerHTML = '';
       pictureElement.insertAdjacentHTML('afterbegin', `<img src=${picture.src.landscape} alt=${picture.alt}>`);
     });
     
   };
 
-  fetchPicture("https://api.pexels.com/v1/search?query=", "winter landscape");
+  fetchPicture("winter landscape");
 
 
 
-
-  
-    
   
     let fetchAPI = (fetchURL) =>{
       fetch(fetchURL)
@@ -112,6 +102,7 @@ const loadEvent = function() {
       city = event.target.value;
       fetchURL = "http://api.weatherapi.com/v1/current.json?key=bbe8663248294c28b60135807232301&q="+city;
       setTimeout(fetchAPI, 1000, fetchURL);
+      fetchPicture(city);
   });
 
 
