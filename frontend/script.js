@@ -10,20 +10,36 @@ const spinner = document.getElementById("spinner");
 
 pictureElement.insertAdjacentHTML('beforeend', 
     `<div class="row m-0 p-0"><div class="col-12 p-3">
-    <input list="citynames" id="cities" name="city" placeholder="Choose a city"></input>
+    <input list="citynames" id="cities" name="city" placeholder="Choose a city" onchange="this.blur();"></input>
     <datalist id="citynames"></datalist></div></div>`
   );
+
 
 const selectElement = document.querySelector('#cities');
 
 const loadEvent = function() {
+
+  let request = async () => {
+    let response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${country}`)
+    let data = await response.json()
+    let cities = data.results
+    test = cities;
+    dataList.replaceChildren(fillOptions)
+    fillOptions(cities)
+  }
+
+
+
+
+
 
 
   let fetchPicture = (theme) => {
 
     fetch("https://api.pexels.com/v1/search?query=" + theme, { 
       headers: {
-        Authorization: 'KxcTUGcE6J6QwkzCc4K53QUcAlbI1VYtvXJzJwCuombgqBlJHYsUh5uM'
+        //Authorization: 'KxcTUGcE6J6QwkzCc4K53QUcAlbI1VYtvXJzJwCuombgqBlJHYsUh5uM'
+        Authorization: 'BQJqfCnx2tJDWXIKI7kZqBEwj4yn7pYWoyAZ9nlHtmH7tmmrmKr0HeHa'
       }
     })
     .then(resp => {
@@ -71,6 +87,7 @@ const loadEvent = function() {
           // console.log('search data: ' + data);
           document.querySelector("#citynames").innerHTML = '';
           createDataList(data);
+          console.log(data);
         };
 
         if (fetchURL.includes('current')){
@@ -78,7 +95,6 @@ const loadEvent = function() {
                   //console.log("weather")
                   //console.log("current data: " + data);
                   displayWeather(data);
-                  //console.log(data);
         };
 
       })
@@ -88,39 +104,57 @@ const loadEvent = function() {
     };
 
   
-  
-  selectElement.addEventListener('input', (event) => {
+  selectElement.addEventListener("keyup", (event) => {
+  //selectElement.addEventListener('input', (event) => {
     //console.log(event.target.value);
     //console.log(event.target.value.substring(0,3));
   
-    if (event.target.value.length < 2) {
-      console.log(favArray);
+    if (event.target.value.length == 0) {
+      //console.log("kllikkelve");
+      document.body.click();
+      document.querySelector("#cities").click();
       document.querySelector("#citynames").innerHTML = "";
       createDataList(favArray);
       }
 
 
     if (event.target.value.length > 2) {
+
       city = event.target.value;
       fetchURL = "http://api.weatherapi.com/v1/search.json?key=bbe8663248294c28b60135807232301&q="+city;
+      //console.log(city);
       fetchAPI(fetchURL);
+
     }
   });
 
-
+let str = "";
   const createDataList = (data) => {
-    console.log(data);
     data.map(element => document.querySelector("#citynames").insertAdjacentHTML('beforeend', `<option value=${element["name"]}></option>`));
+
+    console.log(document.getElementById("citynames").options.length);
+
+    //data.map(element => str += '<option value="'+element["name"]+'"></option>');
+
+    //console.log(str);
+    //document.querySelector("#citynames").innerHTML = str;
+
+
+
+    // document.querySelector("#citynames").focus();
+    // document.querySelector("#cities").focus();
   };
 
 
   selectElement.addEventListener('change', (event) => {
+    if (event.target.value.length > 1) {
       spinner.removeAttribute('hidden');
-      //console.log(event.target.value);
+      console.log(event.target.value);
       city = event.target.value;
       fetchURL = "http://api.weatherapi.com/v1/current.json?key=bbe8663248294c28b60135807232301&q="+city;
       setTimeout(fetchAPI, 1000, fetchURL);
       fetchPicture(city);
+      }
   });
 
 
@@ -133,6 +167,7 @@ const loadEvent = function() {
 
 
   const displayWeather = (data) => {
+    console.log(data);
     if (!document.querySelector("#card")){
       pictureElement.insertAdjacentHTML('beforeend', `<div class="row"><div class="col-4"></div><div class="col-4"><div id="card" class="p-3"></div></div><div class="col-4"></div></div>`);
     }
@@ -156,20 +191,13 @@ const loadEvent = function() {
     if(document.querySelector("#addFav"))
       {
       document.querySelector("#addFav").addEventListener('click', (event) => {
+        document.querySelector("#addFav").classList.remove("empty");
         if (!favArray.includes(data.location.name)) {
           favArray.push({name : data.location.name});
         }
         });
       }
-    
   };
-
-
-
-
-
-
-  
   
 }
   
