@@ -55,6 +55,12 @@ html, body{
     height: 100vh;
   }
 
+.star{
+  font-size: 22px;
+  color: grey;
+  cursor: pointer;
+}
+
 .star.empty{
   font-size: 22px;
   color: orange;
